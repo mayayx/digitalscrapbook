@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>maya and abi's digital scrapbook</title>
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      font-family: 'Courier New', Courier, monospace;
+      background-color: #ffb2b2; /* Pastel pink light */
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      overflow: hidden;
+      cursor: crosshair; /* Retro-style cursor */
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin: 0;
+      padding: 0.5rem;
+      background: linear-gradient(45deg, #a70808, #df4646); /* Deep red to medium red */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: lowercase;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      font-size: 1.5rem;
+      color: #ff7878; /* Pastel pink dark */
+      margin-top: 0.5rem;
+      text-transform: lowercase;
+    }
+
+    .button-container {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-family: 'Courier New', Courier, monospace;
+      background-color: #df4646; /* Medium red */
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      text-transform: lowercase;
+    }
+
+    button:hover {
+      background-color: #a70808; /* Deep red */
+      transform: scale(1.1);
+    }
+
+    /* Postcard Widget */
+    .postcard-widget {
+      margin-top: 2rem;
+      width: 300px;
+      height: 200px;
+      perspective: 1000px; /* Enable 3D perspective */
+    }
+
+    .postcard {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s ease;
+    }
+
+    .postcard-front,
+    .postcard-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Courier New', Courier, monospace;
+      text-align: center;
+    }
+
+    /* Postcard Front */
+    .postcard-front {
+      background-color: #ffffff; /* White */
+      border: 2px solid #df4646; /* Medium red */
+      color: #df4646; /* Medium red */
+      flex-direction: column;
+      padding: 1rem;
+    }
+
+    .address {
+      font-size: 0.9rem;
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .stamp {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 50px;
+      height: 50px;
+      background-color: #ff7878; /* Placeholder pink */
+      border: 2px solid #df4646; /* Medium red */
+      border-radius: 5px;
+    }
+
+    /* Postcard Back */
+    .postcard-back {
+      background-color: #ff7878; /* Pastel pink dark */
+      color: #ffffff; /* White text */
+      border: 2px solid #df4646; /* Medium red */
+      transform: rotateY(180deg);
+      padding: 1rem;
+    }
+
+    /* Flip Effect */
+    .postcard-widget.flip .postcard {
+      transform: rotateY(180deg);
+    }
+  </style>
+</head>
+<body>
+  <h1>maya and abi's digital scrapbook</h1>
+  <p class="subtitle">a curated collection</p>
+
+  <div class="button-container">
+    <button onclick="window.location.href='memories.html'">view memories</button>
+    <button onclick="window.location.href='important-songs.html'">important songs</button>
+    <button onclick="window.location.href='photos.html'">photo gallery</button>
+  </div>
+
+  <!-- Postcard Widget -->
+  <div class="postcard-widget" onclick="togglePostcard()">
+    <div class="postcard">
+      <!-- Front of the postcard -->
+      <div class="postcard-front">
+        <div class="stamp"></div> <!-- Placeholder stamp -->
+        <div class="address">
+          <p>to: pretty abi</p>
+          <p>abi's iphone</p>
+          <p>abi's hand</p>
+          <p>wherever abi is</p>
+        </div>
+      </div>
+
+      <!-- Back of the postcard -->
+      <div class="postcard-back">
+        <p>beautiful abi,<br>
+        i have made this website as a digital scrapbook of our memories.<br>
+        i hope you enjoy it.<br><br>
+        - maya<br>
+        14/04/2025</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Elements -->
+  <audio id="background-music" src="Paolo Nutini - Candy (Lyrics)-yt.savetube.me.mp3" loop autoplay></audio>
+  <audio id="click-sound" src="retro-click.mp3"></audio>
+
+  <script>
+    // Flip Postcard
+    function togglePostcard() {
+      const widget = document.querySelector('.postcard-widget');
+      widget.classList.toggle('flip');
+    }
+
+    // Play Click Sound
+    document.addEventListener('click', function () {
+      const clickSound = document.getElementById('click-sound');
+      clickSound.currentTime = 0; // Reset sound to the start
+      clickSound.play();
+    });
+  </script>
+</body>
+</html>
