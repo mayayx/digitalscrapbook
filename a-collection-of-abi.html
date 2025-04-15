@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Collection of Abi</title>
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      font-family: 'Courier New', Courier, monospace;
+      background: #ffe4e4; /* Soft pastel pink background */
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin: 1.5rem 0;
+      background: linear-gradient(45deg, #a70808, #df4646); /* Retro gradient matching the site */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: lowercase;
+      text-align: center;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      max-width: 1200px;
+    }
+
+    .polaroid, .flip-card {
+      background: #fff;
+      border: 10px solid #ffb2b2; /* Pastel pink border */
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+      text-align: center;
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      width: 200px;
+    }
+
+    .polaroid img, .flip-card img {
+      width: 100%;
+      height: 200px; /* Fixed height for consistency */
+      object-fit: cover; /* Ensures all images fill the space proportionally */
+      border-bottom: 2px solid #df4646; /* Medium red divider */
+    }
+
+    .polaroid:hover, .flip-card:hover {
+      transform: scale(1.05); /* Subtle zoom effect */
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .caption {
+      font-size: 0.9rem;
+      color: #a70808; /* Deep red for retro feel */
+      padding: 0.5rem 0;
+      text-transform: lowercase;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background-color: #a70808; /* Deep red */
+      color: #ffffff;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-transform: lowercase;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+
+    .back-button:hover {
+      background-color: #df4646; /* Medium red */
+      transform: scale(1.1); /* Subtle zoom effect */
+    }
+
+    /* Flipped Card */
+    .flip-card {
+      perspective: 1000px;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .flip-card-inner.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .flip-card-back {
+      background: #ffb2b2; /* Pastel pink background for the back */
+      border: 10px solid #df4646; /* Deep red border */
+      color: #a70808;
+      transform: rotateY(180deg);
+      text-transform: lowercase;
+      font-size: 1rem;
+      font-family: 'Courier New', monospace;
+      padding: 1rem;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
+
+    .message-box {
+      width: 90%;
+      max-width: 400px;
+      background: #ffffff;
+      color: #333333;
+      padding: 1rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      margin-top: 2rem;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      text-transform: lowercase;
+      border: 2px solid #df4646;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .message-box:hover {
+      transform: scale(1.05); /* Subtle zoom */
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <!-- Back to Homepage Button -->
+  <a href="index.html" class="back-button">← back to homepage</a>
+
+  <!-- Page Title -->
+  <h1>a collection of abi</h1>
+
+  <!-- Polaroid Gallery -->
+  <div class="gallery">
+    <!-- Photo: Flushed Away (Flip Card) -->
+    <div class="flip-card" onclick="toggleFlip()">
+      <div class="flip-card-inner" id="flushed-away-card">
+        <!-- Front -->
+        <div class="flip-card-front">
+          <img src="flushedaway.jpg" alt="Flushed Away">
+          <div class="caption">i love sharing in your favourite things 👀</div>
+        </div>
+        <!-- Back -->
+        <div class="flip-card-back">
+          <p>congrats, you have found a hidden message. i miss you fitty.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other Photos with Audio -->
+    <div class="polaroid" onmouseover="playSound('shark-sound')" onmouseout="stopSound('shark-sound')">
+      <img src="shark.jpg" alt="Shark">
+      <div class="caption">you see the best in things, even if others don't</div>
+    </div>
+    <div class="polaroid" onmouseover="playSound('mamma-mia-sound')" onmouseout="stopSound('mamma-mia-sound')">
+      <img src="mammamia.jpg" alt="Mamma Mia">
+      <div class="caption">your relationship with your mum is beautiful</div>
+    </div>
+    <div class="polaroid" onmouseover="playSound('superstore-sound')" onmouseout="stopSound('superstore-sound')">
+      <img src="superstore.jpg" alt="Superstore">
+      <div class="caption">our humour is so similar</div>
+    </div>
+
+    <!-- Other Static Photos -->
+    <div class="polaroid">
+      <img src="21pilots.jpg" alt="21 Pilots">
+      <div class="caption">you resonate so deeply with music</div>
+    </div>
+    <div class="polaroid">
+      <img src="bananabread.jpg" alt="Banana Bread">
+      <div class="caption">you match my sweet tooth</div>
+    </div>
+    <div class="polaroid">
+      <img src="bazman.jpeg" alt="Bazman">
+      <div class="caption">i hate that i cannot meet everybody you have ever loved</div>
+    </div>
+    <div class="polaroid">
+      <img src="grownups.jpg" alt="Grown Ups">
+      <div class="caption">your humour is immaculate</div>
+    </div>
+    <div class="polaroid">
+      <img src="bella.JPEG" alt="Bella">
+      <div class="caption">pretty thick gal</div>
+    </div>
+    <div class="polaroid">
+      <img src="blaire.JPEG" alt="Blaire">
+      <div class="caption">my competition</div>
+    </div>
+    <div class="polaroid">
+      <img src="roses.jpg" alt="Roses">
+      <div class="caption">i cannot wait to buy you more flowers</div>
+    </div>
+    <div class="polaroid">
+      <img src="sunset.jpg" alt="Sunset">
+      <div class="caption">you live day by day</div>
+    </div>
+  </div>
+
+  <!-- Message Box -->
+  <div class="message-box" id="message-box" onclick="showMessage()">
+    incoming message from maya
+  </div>
+
+  <!-- Background Music -->
+  <audio id="background-music" src="twenty one pilots - Neon Gravestones (Official Instrumental)-yt.savetube.me.mp3" loop autoplay></audio>
+
+  <!-- Sound Effects -->
+  <audio id="mamma-mia-sound" src="Slipping Through My Fingers - TikTok Version-yt.savetube.me.mp3" preload="auto"></audio>
+  <audio id="shark-sound" src="Shark Whoosh Sound Effect _ Sounds of a Sea Creature Swimming By-yt.savetube.me.mp3" preload="auto"></audio>
+  <audio id="superstore-sound" src="Superstore Opening Theme-yt.savetube.me.mp3" preload="auto"></audio>
+
+  <script>
+    // Toggle Flip
+    function toggleFlip() {
+      const card = document.getElementById('flushed-away-card');
+      card.classList.toggle('flipped');
+    }
+
+    // Play Sound Effect
+    function playSound(soundId) {
+      const sound = document.getElementById(soundId);
+      const backgroundMusic = document.getElementById('background-music');
+
+      if (sound && backgroundMusic) {
+        console.log(`Playing sound: ${soundId}`); // Debugging log
+        backgroundMusic.pause(); // Pause background music
+        sound.volume = 1.0; // Ensure full volume
+        sound.currentTime = 0; // Reset sound to the start
+        sound.play().catch(error => console.error('Audio playback error:', error)); // Catch playback errors
+      } else {
+        console.error(`Sound element with ID '${soundId}' not found.`);
+      }
+    }
+
+    // Stop Sound Effect
+    function stopSound(soundId) {
+      const sound = document.getElementById(soundId);
+      const backgroundMusic = document.getElementById('background-music');
+
+      if (sound && backgroundMusic) {
+        console.log(`Stopping sound: ${soundId}`); // Debugging log
+        sound.pause(); // Pause the sound
+        sound.currentTime = 0; // Reset sound to the start
+        backgroundMusic.play().catch(error => console.error('Background music error:', error)); // Resume background music
+      } else {
+        console.error(`Sound element with ID '${soundId}' not found.`);
+      }
+    }
+
+    // Resume background music when cursor leaves the image
+    function resumeBackgroundMusic() {
+      const backgroundMusic = document.getElementById('background-music');
+      if (backgroundMusic) {
+        console.log("Resuming background music."); // Debugging log
+        backgroundMusic.play().catch(error => console.error('Background music error:', error));
+      }
+    }
+
+    // Show Message
+    function showMessage() {
+      const box = document.getElementById('message-box');
+      box.innerHTML = "waiting for message...";
+      setTimeout(() => {
+        box.innerHTML = "message received!";
+        setTimeout(() => {
+          box.innerHTML = "you are made up of the things you love. i cannot wait to experience and learn about your loves so i can know you deeper.";
+        }, 1500);
+      }, 1500);
+    }
+  </script>
+</body>
+</html>

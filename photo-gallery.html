@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photo Gallery</title>
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      font-family: 'Courier New', Courier, monospace;
+      background: linear-gradient(135deg, #ffd1d1, #ffe6e6); /* Soft pastel pink gradient */
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      text-align: center;
+      padding: 2rem 1rem;
+      overflow: hidden;
+      overflow-y: auto; /* Enable vertical scrolling */
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(45deg, #a70808, #df4646); /* Deep red gradient */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: lowercase;
+      letter-spacing: 2px;
+    }
+
+    /* Photo Container */
+    .photo-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px; /* Restrict the photo size for better aesthetics */
+      height: 400px; /* Fixed height for the container */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 5px solid #df4646;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      background: #fff;
+    }
+
+    .photo-card {
+      display: none; /* Hide all photos by default */
+      width: 100%;
+      height: 100%;
+    }
+
+    .photo-card.active {
+      display: block; /* Show only the active photo */
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Ensure the image fits nicely within the container */
+      border-radius: 8px;
+    }
+
+    /* Navigation Buttons */
+    .nav-buttons {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .nav-buttons button {
+      background-color: #df4646;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: 'Courier New', Courier, monospace;
+      text-transform: lowercase;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      font-size: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-buttons button:hover {
+      background-color: #a70808; /* Deep red */
+      transform: scale(1.1); /* Subtle zoom effect */
+    }
+
+    /* Take Me Home Button */
+    .home-button {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background-color: #df4646;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: 'Courier New', Courier, monospace;
+      text-transform: lowercase;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      font-size: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .home-button:hover {
+      background-color: #a70808; /* Deep red */
+      transform: scale(1.1); /* Subtle zoom effect */
+    }
+
+    /* Favorite Memory Section */
+    .favorite-memory-section {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      max-width: 600px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-family: 'Courier New', Courier, monospace;
+      max-height: 300px; /* Limit height */
+      overflow-y: auto; /* Enable scrolling within the section */
+    }
+
+    .favorite-memory-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #df4646; /* Medium red */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .favorite-memory-section h2::before {
+      content: "✏️"; /* Add pen/pencil emoji */
+      font-size: 1.5rem;
+    }
+
+    .favorite-memory-section input[type="text"] {
+      width: 90%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      font-family: 'Courier New', Courier, monospace;
+      border: 2px solid #df4646; /* Medium red */
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      outline: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .favorite-memory-section button {
+      background-color: #df4646;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      font-family: 'Courier New', Courier, monospace;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .favorite-memory-section button:hover {
+      background-color: #a70808; /* Deep red */
+      transform: scale(1.05);
+    }
+
+    .favorite-memory-display {
+      margin-top: 1rem;
+      padding: 1rem 1.5rem;
+      background: #ffb2b2;
+      border-radius: 12px;
+      border: 2px solid #df4646;
+      font-family: 'Courier New', Courier, monospace; /* Match page font */
+      font-size: 1.2rem;
+      color: #333;
+      display: none;
+      animation: fadeIn 1s ease-in-out;
+      box-shadow: 0 0 15px rgba(223, 70, 70, 0.6); /* Glowing effect */
+      text-transform: lowercase; /* Use lowercase text */
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .memory-log {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #ffe6e6;
+      border-radius: 12px;
+      border: 2px solid #df4646;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      color: #333;
+      max-height: 200px;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .memory-log-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .memory-log-item span {
+      flex-grow: 1;
+      margin-right: 1rem;
+      text-transform: lowercase;
+    }
+
+    .delete-button {
+      background-color: #df4646;
+      color: white;
+      border: none;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.8rem;
+      font-family: 'Courier New', Courier, monospace;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .delete-button:hover {
+      background-color: #a70808; /* Deep red */
+      transform: scale(1.1);
+    }
+
+    /* Emoji Rain Styles */
+    .emoji {
+      position: absolute;
+      font-size: 2rem;
+      animation: fall 3s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const photos = document.querySelectorAll(".photo-card");
+      let currentIndex = 0;
+
+      // Function to update the active photo
+      function updatePhoto(index) {
+        photos.forEach((photo, i) => {
+          photo.classList.toggle("active", i === index);
+        });
+      }
+
+      // Show the first photo initially
+      updatePhoto(currentIndex);
+
+      // Add event listeners to navigation buttons
+      document.getElementById("prev-button").addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + photos.length) % photos.length; // Go to the previous photo
+        updatePhoto(currentIndex);
+      });
+
+      document.getElementById("next-button").addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % photos.length; // Go to the next photo
+        updatePhoto(currentIndex);
+      });
+
+      // Memory log functionality
+      const memoryInput = document.getElementById('favorite-memory-input');
+      const memoryLog = document.getElementById('memory-log');
+
+      function loadMemories() {
+        const memories = JSON.parse(localStorage.getItem('memories')) || [];
+        memoryLog.innerHTML = '';
+        memories.forEach((memory, index) => {
+          const memoryItem = document.createElement('div');
+          memoryItem.classList.add('memory-log-item');
+          memoryItem.innerHTML = `
+            <span>${memory}</span>
+            <button class="delete-button" onclick="deleteMemory(${index})">delete</button>
+          `;
+          memoryLog.appendChild(memoryItem);
+        });
+      }
+
+      function saveMemory() {
+        const memory = memoryInput.value.trim();
+        if (memory) {
+          const memories = JSON.parse(localStorage.getItem('memories')) || [];
+          memories.push(memory);
+          localStorage.setItem('memories', JSON.stringify(memories));
+          memoryInput.value = '';
+          loadMemories();
+        }
+      }
+
+      window.deleteMemory = function(index) {
+        const memories = JSON.parse(localStorage.getItem('memories')) || [];
+        memories.splice(index, 1);
+        localStorage.setItem('memories', JSON.stringify(memories));
+        loadMemories();
+      };
+
+      // Load memories on page load
+      loadMemories();
+
+      // Attach save memory function to button
+      document.getElementById('save-memory-button').addEventListener('click', saveMemory);
+
+      // Emoji Rain Functionality
+      const emojis = ["🌸", "🌅", "🐶", "🐱", "🚗", "🍫", "❤️", "👩‍❤️‍👩"];
+      const raincloudButton = document.createElement("button");
+      raincloudButton.textContent = "🌧️";
+      raincloudButton.style.position = "fixed";
+      raincloudButton.style.bottom = "20px";
+      raincloudButton.style.right = "20px";
+      raincloudButton.style.fontSize = "2rem";
+      raincloudButton.style.background = "none";
+      raincloudButton.style.border = "none";
+      raincloudButton.style.cursor = "pointer";
+      raincloudButton.style.zIndex = "1000";
+      document.body.appendChild(raincloudButton);
+
+      raincloudButton.addEventListener("click", () => {
+        for (let i = 0; i < 20; i++) {
+          const emoji = document.createElement("div");
+          emoji.classList.add("emoji");
+          emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          emoji.style.left = `${Math.random() * 100}vw`;
+          emoji.style.animationDuration = `${Math.random() * 2 + 3}s`;
+          emoji.style.animationDelay = `${Math.random() * 2}s`;
+          document.body.appendChild(emoji);
+
+          // Remove emoji after animation
+          emoji.addEventListener("animationend", () => {
+            emoji.remove();
+          });
+        }
+      });
+    });
+
+    function saveFavoriteMemory() {
+      const input = document.getElementById('favorite-memory-input').value.trim();
+      const display = document.getElementById('favorite-memory-display');
+
+      if (input) {
+        display.textContent = `your favourite memory: "${input}"`;
+        display.style.display = 'block';
+      } else {
+        display.textContent = "please write something before saving!";
+        display.style.display = 'block';
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- Background Audio -->
+  <audio autoplay loop>
+    <source src="First Aid Kit - My Silver Lining (Lyrics)-yt.savetube.me.mp3" type="audio/mpeg">
+    Your browser does not support the audio tag.
+  </audio>
+
+  <!-- Take Me Home Button -->
+  <a href="index.html" class="home-button">take me home</a>
+
+  <!-- Page Title -->
+  <h1>photo gallery</h1>
+
+  <!-- Photo Container -->
+  <div class="photo-container">
+    <div class="photo-card">
+      <img src="mouse moment.JPEG" alt="Mouse Moment">
+    </div>
+    <div class="photo-card">
+      <img src="waking up at 5am.JPEG" alt="Waking Up at 5am">
+    </div>
+    <div class="photo-card">
+      <img src="lots of love.JPEG" alt="Lots of Love">
+    </div>
+    <div class="photo-card">
+      <img src="the botanist.JPEG" alt="The Botanist">
+    </div>
+    <div class="photo-card">
+      <img src="tipsy shenannegans.JPEG" alt="Tipsy Shenannegans">
+    </div>
+    <div class="photo-card">
+      <img src="our paintings.JPEG" alt="Our Paintings">
+    </div>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <button id="prev-button">previous</button>
+    <button id="next-button">next</button>
+  </div>
+
+  <!-- Favorite Memory Section -->
+  <div class="favorite-memory-section">
+    <h2>share your favourite memory with me, if you'd like.</h2>
+    <input type="text" id="favorite-memory-input" placeholder="Type your favourite memory here...">
+    <button id="save-memory-button">save memory</button>
+    <div id="memory-log" class="memory-log"></div>
+  </div>
+</body>
+</html>

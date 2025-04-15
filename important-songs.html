@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Important Songs</title>
+  <style>
+    /* General Styles */
+    body {
+      margin: 0;
+      font-family: 'Courier New', Courier, monospace;
+      background: linear-gradient(135deg, #ffd1d1, #ffe6e6); /* Soft pastel pink gradient */
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 2rem;
+      background: linear-gradient(45deg, #a70808, #df4646);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: lowercase;
+      letter-spacing: 2px;
+      padding: 1rem 2rem;
+      background-color: #fff; /* Add white background */
+      border-radius: 20px; /* Rounded corners */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+      display: inline-block; /* Ensure proper spacing */
+    }
+
+    /* Postcard Section */
+    .postcard-section {
+      margin-bottom: 3rem; /* Add spacing to separate postcard and playlist */
+    }
+
+    .postcard-widget {
+      width: 350px;
+      height: 220px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .postcard {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+    }
+
+    .postcard.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .postcard-front,
+    .postcard-back {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Front of the Postcard */
+    .postcard-front {
+      background: #fff;
+      border: 2px solid #df4646;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem;
+    }
+
+    .stamp {
+      width: 60px;
+      height: 60px;
+      background: url('cute-stamp.jpeg.jpg') no-repeat center center;
+      background-size: cover; /* Ensure the stamp image fits nicely */
+      border-radius: 8px;
+      align-self: flex-end;
+    }
+
+    .address {
+      text-align: left;
+    }
+
+    .address p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #333;
+      text-transform: lowercase;
+    }
+
+    /* Back of the Postcard */
+    .postcard-back {
+      background: #fff;
+      border: 2px solid #df4646;
+      transform: rotateY(180deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .postcard-back p {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #333;
+      text-align: center;
+    }
+
+    /* Hint Section */
+    .hint {
+      font-size: 1rem;
+      color: #a70808;
+      margin-bottom: 1rem;
+      text-transform: lowercase;
+      font-style: italic; /* Add emphasis */
+    }
+
+    /* Playlist Section */
+    .playlist {
+      width: 100%;
+      max-width: 600px;
+      background: #fff;
+      border-radius: 20px; /* Rounded corners */
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+      border: 2px solid #df4646;
+      overflow: hidden;
+    }
+
+    .playlist-header {
+      background: linear-gradient(45deg, #df4646, #a70808); /* Gradient header */
+      color: #fff;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.2rem;
+      text-transform: lowercase;
+      padding: 0.8rem;
+      text-align: center;
+    }
+
+    .playlist-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .playlist-table th,
+    .playlist-table td {
+      padding: 0.8rem;
+      text-align: left;
+      font-size: 1rem;
+      text-transform: lowercase;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .playlist-table th {
+      background: #ffd1d1;
+      color: #a70808;
+    }
+
+    .playlist-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .playlist-table td:first-child {
+      font-weight: bold;
+    }
+
+    .explanation {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #ffb2b2;
+      border-radius: 12px;
+      border: 2px solid #df4646;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      color: #333;
+      display: none;
+      text-align: left;
+      line-height: 1.5;
+    }
+
+    /* Take Me Home Button */
+    .home-button {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background-color: #df4646;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: 'Courier New', Courier, monospace;
+      text-transform: lowercase;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      font-size: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .home-button:hover {
+      background-color: #a70808; /* Deep red */
+      transform: scale(1.1); /* Subtle zoom effect */
+    }
+  </style>
+  <script>
+    function togglePostcard() {
+      const postcard = document.querySelector(".postcard");
+      postcard.classList.toggle("flipped");
+    }
+
+    function displayExplanation(id) {
+      const explanations = document.querySelectorAll(".explanation");
+      explanations.forEach((explanation) => {
+        explanation.style.display = "none"; // Hide all explanations
+      });
+      document.getElementById(id).style.display = "block"; // Show the selected explanation
+    }
+  </script>
+</head>
+<body>
+  <!-- Background Audio -->
+  <audio autoplay loop>
+    <source src="Ari Abdul - BABYDOLL (Lyrics)-yt.savetube.me.mp3" type="audio/mpeg">
+    Your browser does not support the audio tag.
+  </audio>
+
+  <!-- Take Me Home Button -->
+  <a href="index.html" class="home-button">take me home</a>
+
+  <!-- Page Title -->
+  <h1>important songs</h1>
+
+  <!-- Postcard Section -->
+  <div class="postcard-section">
+    <div class="postcard-widget" onclick="togglePostcard()">
+      <div class="postcard">
+        <!-- Front of the postcard -->
+        <div class="postcard-front">
+          <div class="stamp"></div> <!-- Cute Stamp -->
+          <div class="address">
+            <p>to: pretty abi</p>
+            <p>abi's iphone</p>
+            <p>abi's hand</p>
+            <p>wherever abi is</p>
+          </div>
+        </div>
+
+        <!-- Back of the postcard -->
+        <div class="postcard-back">
+          <p>
+            i know you associate moments in your life with songs.<br>
+            here are some songs i associate with you.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hint Section -->
+  <div class="hint">hint: click each song to read why it is special to me.</div>
+
+  <!-- Playlist -->
+  <div class="playlist">
+    <div class="playlist-header">songs i associate with you</div>
+    <table class="playlist-table">
+      <thead>
+        <tr>
+          <th>song</th>
+          <th>artist</th>
+          <th>album</th>
+          <th>length</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr onclick="displayExplanation('santeria-explanation')">
+          <td>santeria</td>
+          <td>sublime</td>
+          <td>sublime</td>
+          <td>3:03</td>
+        </tr>
+        <tr onclick="displayExplanation('thinking-bout-you-explanation')">
+          <td>thinking bout you</td>
+          <td>frank ocean</td>
+          <td>channel orange</td>
+          <td>3:20</td>
+        </tr>
+        <tr onclick="displayExplanation('babydoll-explanation')">
+          <td>babydoll</td>
+          <td>ari abdul</td>
+          <td>babydoll</td>
+          <td>2:37</td>
+        </tr>
+        <tr onclick="displayExplanation('been-like-this-explanation')">
+          <td>been like this</td>
+          <td>doja cat</td>
+          <td>planet her</td>
+          <td>3:02</td>
+        </tr>
+        <tr onclick="displayExplanation('at-the-river-explanation')">
+          <td>at the river</td>
+          <td>groove armada</td>
+          <td>vertigo</td>
+          <td>6:32</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Explanations -->
+  <div id="santeria-explanation" class="explanation">
+    santeria reminds me of when we met. it’s such an upbeat song and makes me think of the weather getting warmer and your smile.
+  </div>
+  <div id="thinking-bout-you-explanation" class="explanation">
+    this song is about reminiscing about a past connection, but you reintroduced it to me. i feel a lot of the lyrics relate to how i feel about you: <br>
+    <em>"it won't ever get old, not in my soul, not in my spirit, keep it alive."</em>
+  </div>
+  <div id="babydoll-explanation" class="explanation">
+    this song is just so sexy and it makes me think of you.
+  </div>
+  <div id="been-like-this-explanation" class="explanation">
+    this song is the one i associate most with you because i listened to it like 20 times the first week we talked.
+  </div>
+  <div id="at-the-river-explanation" class="explanation">
+    this song reminds me of my parents, but also saunton and devon. i associate the area with good memories, and now that extends to you. ❤️
+  </div>
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>our first date</title>
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      font-family: 'Courier New', Courier, monospace;
+      background: linear-gradient(135deg, #ffb2b2, #ffe4e4); /* Pink gradient */
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(45deg, #a70808, #df4646); /* Red gradient */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: lowercase;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    h1::after {
+      content: " ❤️";
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: #6b4226; /* Warm brown */
+      text-align: center;
+      margin-bottom: 1.5rem;
+      text-transform: lowercase;
+    }
+
+    h2::before {
+      content: "📅 ";
+    }
+
+    .tracker-section {
+      background-color: #ffe4e4; /* Soft pastel pink */
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .tracker-section p {
+      font-size: 1.5rem;
+      color: #6b4226;
+      margin: 0;
+    }
+
+    .tracker-section span {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #a70808; /* Deep red */
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
+    .word-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      max-width: 800px;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .word-cloud span {
+      font-family: 'Courier New', Courier, monospace;
+      text-transform: lowercase;
+      font-weight: bold;
+      transition: transform 0.3s ease, color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .word-cloud span:hover {
+      transform: scale(1.2); /* Slight scaling on hover */
+    }
+
+    .word-cloud .small {
+      font-size: 1rem;
+      color: #a76f6f; /* Soft reddish brown */
+    }
+
+    .word-cloud .medium {
+      font-size: 1.5rem;
+      color: #a70808; /* Deep red */
+    }
+
+    .word-cloud .large {
+      font-size: 2rem;
+      color: #df4646; /* Medium red */
+    }
+
+    .word-cloud .x-large {
+      font-size: 2.5rem;
+      color: #ff6b6b; /* Bright pink */
+    }
+
+    .content-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    video {
+      width: 400px;
+      max-width: 100%;
+      border: 10px solid transparent;
+      border-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="16" fill="red">❤️</text></svg>') 30;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+    }
+
+    .quiz-container {
+      background-color: #fff;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 600px;
+    }
+
+    .quiz-question {
+      font-size: 1.5rem;
+      color: #6b4226; /* Warm brown */
+      margin-bottom: 1rem;
+      text-transform: lowercase;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .quiz-options button {
+      background-color: #fff;
+      color: #a70808; /* Deep red */
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      padding: 0.8rem 1.5rem;
+      border: 2px solid #a70808;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+
+    .quiz-options button:hover {
+      background-color: #df4646; /* Medium red */
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .message-container {
+      margin-top: 1rem;
+      text-align: center;
+      padding: 1rem;
+      font-size: 1.5rem;
+      color: #6b4226; /* Warm brown */
+      border: 2px solid #a70808;
+      border-radius: 12px;
+      background-color: #ffe4e4;
+      display: none;
+    }
+
+    .back-button {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      background-color: #df4646; /* Medium red */
+      color: white;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      padding: 0.8rem 1.5rem;
+      border: 2px solid #a70808;
+      border-radius: 50px; /* Rounded button */
+      text-transform: lowercase;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .back-button:hover {
+      background-color: #a70808; /* Deep red */
+      transform: scale(1.1); /* Slight zoom on hover */
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .heart-animation {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5rem;
+      color: #a70808; /* Deep red */
+      animation: pop 1s ease-in-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes pop {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+      }
+    }
+
+    .quiz-message {
+      margin-top: 1rem;
+      font-size: 1.5rem;
+      color: #6b4226; /* Warm brown */
+      text-transform: lowercase;
+      display: none;
+      opacity: 0; /* Start hidden */
+      animation: fadeInOut 5s ease-in-out; /* Extend duration to 5 seconds */
+    }
+
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+      }
+      10%, 90% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <a href="index.html" class="back-button">← back to home</a>
+
+  <!-- Memory Title -->
+  <h1>our first date</h1>
+  <h2>29th march 2025</h2>
+
+  <!-- Live Tracker Section -->
+  <div class="tracker-section">
+    <p>it's been <span id="days-since">0</span> days since our first date.</p>
+  </div>
+
+  <!-- Word Cloud Section -->
+  <div class="word-cloud">
+    <span class="large">we laughed so much</span>
+    <span class="medium">we had so many snacks</span>
+    <span class="large">we shared our music</span>
+    <span class="x-large">we spent 10 hours together</span>
+    <span class="medium">you let me change gears</span>
+    <span class="small">getting our mums flowers for mother's day</span>
+  </div>
+
+  <!-- Content Container -->
+  <div class="content-container">
+    <!-- Embedded Video -->
+    <video autoplay loop muted>
+      <source src="abi maya first date.MP4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Autoplay Audio -->
+    <audio autoplay loop>
+      <source src="Jordan Klassen - No Salesman-yt.savetube.me.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
+    
+    <!-- Quiz Section -->
+    <div class="quiz-container">
+      <div class="quiz-question">what did we eat on our first date?</div>
+      <div class="quiz-options">
+        <button onclick="checkAnswer('nandos')">nandos 🍗</button>
+        <button onclick="checkAnswer('pizza')">pizza 🍕</button>
+        <button onclick="checkAnswer('cheese and crackers')">cheese and crackers 🧀</button>
+      </div>
+      <div id="quiz-message" class="quiz-message"></div>
+    </div>
+  </div>
+
+  <!-- Quiz Message Container -->
+  <div class="message-container" id="quiz-message">
+    ❤️ <span id="quiz-message-text"></span>
+  </div>
+
+  <script>
+    function checkAnswer(answer) {
+      const correctAnswer = 'cheese and crackers';
+      const messageElement = document.getElementById('quiz-message');
+
+      if (answer === correctAnswer) {
+        messageElement.textContent = 'correct, we were living our best mouse life!';
+        playHeartAnimation();
+      } else {
+        messageElement.textContent = 'damn, were you even there?';
+      }
+
+      messageElement.style.display = 'block';
+      messageElement.style.animation = 'fadeInOut 5s ease-in-out'; // Apply smooth fade-in/out
+      setTimeout(() => {
+        messageElement.style.display = 'none';
+      }, 5000); // Message disappears after 5 seconds
+    }
+
+    function playHeartAnimation() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart-animation');
+      heart.textContent = '❤️';
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 1000); // Remove the heart after the animation
+    }
+
+    function calculateDaysSince() {
+      const firstDate = new Date('2025-03-29');
+      const today = new Date();
+      const diffTime = today - firstDate;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      document.getElementById('days-since').textContent = diffDays;
+    }
+
+    // Calculate days since the first date on page load
+    calculateDaysSince();
+  </script>
+</body>
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>you through my eyes</title>
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      font-family: 'Courier New', Courier, monospace;
+      background: linear-gradient(135deg, #ffd1d1, #ffe6e6); /* Soft pink gradient */
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(45deg, #a70808, #df4646); /* Red gradient */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: lowercase;
+      letter-spacing: 2px;
+    }
+
+    .explanation {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #6b4226; /* Warm brown */
+      max-width: 800px;
+      line-height: 1.6;
+      text-transform: lowercase;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1200px;
+      padding: 1rem;
+    }
+
+    .gallery .photo-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .gallery .photo-container:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .gallery .photo-caption {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      padding: 0.5rem;
+      font-size: 1rem;
+      text-align: center;
+      font-family: 'Courier New', Courier, monospace;
+      text-transform: lowercase;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .gallery .photo-container:hover .photo-caption {
+      opacity: 1;
+    }
+
+    /* Prettiest Widget */
+    .prettiest-widget {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      background-color: #fff;
+      color: #df4646;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 400px;
+    }
+
+    .prettiest-widget h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .prettiest-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .yes-button {
+      font-size: 1.2rem;
+      padding: 0.6rem 1rem;
+      background-color: #4caf50; /* Green */
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .no-button {
+      font-size: 1.2rem;
+      padding: 0.6rem 1rem;
+      background-color: #f44336; /* Red */
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .yes-button:hover, .no-button:hover {
+      transform: scale(1.1);
+    }
+
+    .message {
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+      color: #333;
+      text-transform: lowercase;
+      display: none;
+    }
+
+    /* Compliment Section */
+    .button-group {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    #compliment-display {
+      text-align: center; /* Center compliments */
+    }
+
+    .compliment-buffer {
+      font-style: italic;
+      color: #a70808; /* Deep red */
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .compliment-display {
+      margin-top: 1.5rem;
+      padding: 1rem 1.5rem;
+      max-width: 500px;
+      border: 2px solid #df4646; /* Medium red border */
+      border-radius: 12px;
+      background: #fff;
+      color: #333;
+      font-size: 1.2rem;
+      font-family: 'Courier New', Courier, monospace;
+      display: none;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .button-group button {
+      font-size: 1.2rem;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(135deg, #df4646, #a70808); /* Gradient red */
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: 'Courier New', Courier, monospace;
+      text-transform: lowercase;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .button-group button:hover {
+      transform: scale(1.1); /* Slight zoom on hover */
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .button-group button:active {
+      transform: scale(1); /* Reset scale on click */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    #compliment-button {
+      background: linear-gradient(135deg, #ff6b6b, #df4646); /* Gradient pink-red */
+    }
+
+    #compliment-button:hover {
+      background: linear-gradient(135deg, #ff8a8a, #e57373); /* Lighter pink-red on hover */
+    }
+
+    #read-letter-button {
+      background: linear-gradient(135deg, #ff9494, #df4646); /* Gradient soft pink-red */
+    }
+
+    #read-letter-button:hover {
+      background: linear-gradient(135deg, #ffc1c1, #e57373); /* Lighter soft pink-red on hover */
+    }
+
+    /* Modal for Letter */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #ffe6e6; /* Soft pastel pink */
+      padding: 2rem;
+      max-width: 600px;
+      border-radius: 12px;
+      text-align: center;
+      font-family: 'Courier New', Courier, monospace;
+      color: #a70808; /* Deep red */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .modal-content p {
+      margin: 1rem 0;
+      line-height: 1.6;
+    }
+
+    .modal .close-button {
+      background-color: #df4646; /* Medium red */
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Courier New', Courier, monospace;
+      text-transform: lowercase;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+
+    .modal .close-button:hover {
+      background-color: #a70808; /* Deep red */
+      transform: scale(1.05);
+    }
+
+    /* Back to Homepage Button */
+    .back-button {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background-color: #df4646; /* Medium red */
+      color: #ffffff;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-transform: lowercase;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .back-button:hover {
+      background-color: #a70808; /* Deep red */
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Audio -->
+  <audio autoplay loop>
+    <source src="Billie Eilish - Ocean Eyes (Lyrics)-yt.savetube.me.mp3" type="audio/mpeg">
+    Your browser does not support the audio tag.
+  </audio>
+
+  <!-- Back to Homepage Button -->
+  <a href="index.html" class="back-button">← back to homepage</a>
+
+  <!-- Page Title -->
+  <h1>you through my eyes</h1>
+
+  <!-- Explanation -->
+  <p class="explanation">
+    here is a gallery of photos showing you how i view you. i hope you can sense my admiration through the camera.
+  </p>
+
+  <!-- Photo Gallery -->
+  <div class="gallery">
+    <!-- Photo 1 -->
+    <div class="photo-container">
+      <img src="abi%20back.JPEG" alt="Abi's Back">
+      <div class="photo-caption">your tattoos drive me wild</div>
+    </div>
+
+    <!-- Photo 2 -->
+    <div class="photo-container">
+      <img src="abi%20eye.JPEG" alt="Abi's Eye">
+      <div class="photo-caption">billie eilish wrote ocean eyes about you</div>
+    </div>
+
+    <!-- Photo 3 -->
+    <div class="photo-container">
+      <img src="abi%20hair.JPEG" alt="Abi's Hair">
+      <div class="photo-caption">you always stress about your hair but it falls perfectly</div>
+    </div>
+
+    <!-- Photo 4 -->
+    <div class="photo-container">
+      <img src="abi%20painting.JPEG" alt="Abi Painting">
+      <div class="photo-caption">you have the prettiest smile</div>
+    </div>
+
+    <!-- Photo 5 -->
+    <div class="photo-container">
+      <img src="abi%20rose.JPEG" alt="Abi with a Rose">
+      <div class="photo-caption">your concentrating face is the sweetest</div>
+    </div>
+  </div>
+
+  <!-- Are You The Prettiest Widget -->
+  <div class="prettiest-widget">
+    <h2>are you the prettiest?</h2>
+    <div class="prettiest-buttons">
+      <button class="yes-button" onclick="handleYesClick()">yes</button>
+      <button class="no-button" onclick="handleNoClick()">no</button>
+    </div>
+    <div id="message" class="message">good, you're so smart baby!</div>
+  </div>
+
+  <!-- Compliment Button -->
+  <div class="button-group">
+    <button id="compliment-button">send me a compliment</button>
+    <p id="compliment-buffer" class="compliment-buffer"></p>
+    <div id="compliment-display" class="compliment-display"></div>
+    <button id="read-letter-button">read when insecure</button>
+  </div>
+
+  <!-- Modal for Letter -->
+  <div class="modal" id="letter-modal">
+    <div class="modal-content">
+      <p>hi baby, i'm sorry you're feeling insecure. it is so normal to feel that way, but i can't help but think you're silly.</p>
+      <p>i know you worry sometimes; about your skin or hair or body. i know my words may not convince you but i want to remind you that you are so perfect.</p>
+      <p>your beauty is apparent to everyone around you. i wish you could see yourself through my eyes for even a millisecond. that is all it would take for you to love yourself unconditionally.</p>
+      <button class="close-button" id="close-modal-button">close</button>
+    </div>
+  </div>
+
+  <script>
+    const compliments = [
+      "you are the most beautiful woman i've ever seen",
+      "you are effortlessly beautiful",
+      "you exude such warmth - you feel like the first summer sun hitting my face",
+      "your smile brings my world to a halt"
+    ];
+
+    const complimentButton = document.getElementById('compliment-button');
+    const complimentBuffer = document.getElementById('compliment-buffer');
+    const complimentDisplay = document.getElementById('compliment-display');
+    const readLetterButton = document.getElementById('read-letter-button');
+    const letterModal = document.getElementById('letter-modal');
+    const closeModalButton = document.getElementById('close-modal-button');
+
+    // Compliment Button with Buffer
+    complimentButton.addEventListener('click', () => {
+      complimentBuffer.textContent = "sending compliment...";
+      complimentBuffer.style.display = 'block';
+      complimentDisplay.style.display = 'none';
+
+      // Simulate delay for "sending compliment"
+      setTimeout(() => {
+        complimentBuffer.textContent = "compliment arrived!";
+        setTimeout(() => {
+          const randomCompliment = compliments[Math.floor(Math.random() * compliments.length)];
+          complimentDisplay.textContent = randomCompliment;
+          complimentDisplay.style.display = 'block';
+          complimentBuffer.style.display = 'none';
+        }, 1000); // Delay before showing the compliment
+      }, 1500); // Delay for "sending compliment"
+    });
+
+    // Open Modal
+    readLetterButton.addEventListener('click', () => {
+      letterModal.style.display = 'flex';
+    });
+
+    // Close Modal
+    closeModalButton.addEventListener('click', () => {
+      letterModal.style.display = 'none';
+    });
+
+    // Close Modal when clicking outside the modal content
+    letterModal.addEventListener('click', (event) => {
+      if (event.target === letterModal) {
+        letterModal.style.display = 'none';
+      }
+    });
+
+    // Handle "No" Button
+    function handleNoClick() {
+      const yesButton = document.querySelector('.yes-button');
+      const currentSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
+      yesButton.style.fontSize = `${currentSize * 1.2}px`; // Increase size of "Yes" button
+    }
+
+    // Handle "Yes" Button
+    function handleYesClick() {
+      const message = document.getElementById('message');
+      message.style.display = 'block'; // Show the sweet message
+    }
+  </script>
+</body>
+</html>

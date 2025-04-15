@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>our memories</title>
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      font-family: 'Courier New', Courier, monospace;
+      background: #ffe4e4; /* Soft pastel pink background */
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin: 1.5rem 0;
+      background: linear-gradient(45deg, #a70808, #df4646); /* Original red gradient */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: lowercase;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    /* Timeline Line */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #df4646; /* Original medium red */
+      transform: translateX(-50%);
+    }
+
+    /* Memory Items */
+    .timeline-item {
+      padding: 1rem 0;
+      position: relative;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .timeline-item:nth-child(odd) {
+      flex-direction: row-reverse;
+    }
+
+    /* Memory Content */
+    .memory-content {
+      background-color: #ffb2b2; /* Original pastel pink */
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+      max-width: 280px;
+      text-align: center;
+      border: 2px solid #df4646; /* Medium red border */
+      font-family: 'Courier New', Courier, monospace;
+      cursor: pointer; /* Make the entire box clickable */
+      text-decoration: none; /* Remove underline from links */
+      color: inherit; /* Inherit text color */
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .memory-content:hover {
+      background-color: #ffe4e4; /* Lighter pastel pink on hover */
+      transform: scale(1.05);
+    }
+
+    /* Memory Date */
+    .memory-date {
+      font-size: 0.9rem;
+      color: #a70808; /* Deep red */
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      text-transform: lowercase;
+    }
+
+    /* Memory Icon */
+    .memory-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-item:nth-child(odd) .memory-icon {
+      left: calc(50% - 20px);
+    }
+
+    .timeline-item:nth-child(even) .memory-icon {
+      right: calc(50% - 20px);
+    }
+
+    /* Retro Styling for Buttons */
+    .back-button {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background-color: #a70808; /* Deep red */
+      color: #ffffff;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-transform: lowercase;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+
+    .back-button:hover {
+      background-color: #df4646; /* Medium red */
+      transform: scale(1.1); /* Subtle zoom effect */
+    }
+  </style>
+</head>
+<body>
+  <!-- Back to Homepage Button -->
+  <a href="index.html" class="back-button">← back to homepage</a>
+
+  <!-- Page Title -->
+  <h1>our memories</h1>
+
+  <!-- Timeline -->
+  <div class="timeline">
+    <!-- Memory: Our First Date -->
+    <div class="timeline-item">
+      <a href="first-date-memory.html" class="memory-content">
+        <div class="memory-icon">💐</div>
+        <div class="memory-date">29th march 2025</div>
+        our first date
+      </a>
+    </div>
+
+    <!-- Memory: More Memories -->
+    <div class="timeline-item">
+      <div class="memory-content">
+        <div class="memory-icon">🌈</div>
+        more memories in the making
+      </div>
+    </div>
+
+    <!-- Memory: Stay Tuned -->
+    <div class="timeline-item">
+      <div class="memory-content">
+        <div class="memory-icon">🎉</div>
+        stay tuned, darling
+      </div>
+    </div>
+
+    <!-- Memory: Cannot Wait -->
+    <div class="timeline-item">
+      <div class="memory-content">
+        <div class="memory-icon">✈️</div>
+        i cannot wait to experience more of life with you
+      </div>
+    </div>
+
+    <!-- Memory: Placeholder -->
+    <div class="timeline-item">
+      <div class="memory-content">
+        <div class="memory-icon">✨</div>
+        more memories in the making
+      </div>
+    </div>
+
+    <!-- Memory: Placeholder -->
+    <div class="timeline-item">
+      <div class="memory-content">
+        <div class="memory-icon">🎄</div>
+        stay tuned, darling
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Music -->
+  <audio autoplay loop>
+    <source src="[slowed & reverb] bundle of joy - Micheal giacchino-yt.savetube.me.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+</body>
+</html>

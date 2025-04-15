@@ -4,27 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>maya and abi's digital scrapbook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
   <style>
     /* Global Styles */
     body {
       margin: 0;
-      font-family: 'Courier New', Courier, monospace;
-      background-color: #ffb2b2; /* Pastel pink light */
+      font-family: 'Courier Prime', monospace;
+      background-color: #ffd6d6; /* Soft pastel pink */
       color: #ffffff;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       min-height: 100vh;
       text-align: center;
-      overflow: hidden;
-      cursor: crosshair; /* Retro-style cursor */
+      overflow-x: hidden;
+      padding: 2rem 1rem;
+    }
+
+    /* Title with Background Banner */
+    .title-banner {
+      width: 100%;
+      max-width: 900px;
+      background: linear-gradient(135deg, #ff9494, #ffb2b2);
+      border-radius: 20px;
+      padding: 1rem 2rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
     h1 {
       font-size: 3rem;
       margin: 0;
-      padding: 0.5rem;
       background: linear-gradient(45deg, #a70808, #df4646); /* Deep red to medium red */
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -32,41 +43,58 @@
       letter-spacing: 2px;
     }
 
+    /* Subtitle with Heart */
     .subtitle {
       font-size: 1.5rem;
-      color: #ff7878; /* Pastel pink dark */
+      color: #ffffff;
       margin-top: 0.5rem;
       text-transform: lowercase;
     }
 
+    .subtitle .heart {
+      color: #ff7878; /* Pastel pink dark */
+    }
+
+    /* Button Container and Styling */
     .button-container {
       margin-top: 2rem;
       display: flex;
+      flex-wrap: wrap;
       gap: 1.5rem;
       justify-content: center;
     }
 
     button {
-      padding: 0.75rem 1.5rem;
+      padding: 0.8rem 2rem;
       font-size: 1rem;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Courier Prime', monospace;
       background-color: #df4646; /* Medium red */
       color: #ffffff;
       border: none;
-      border-radius: 8px;
+      border-radius: 20px;
       cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      transition: all 0.3s ease;
       text-transform: lowercase;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     button:hover {
       background-color: #a70808; /* Deep red */
-      transform: scale(1.1);
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Postcard Section */
+    .postcard-section {
+      margin-top: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
     }
 
     /* Postcard Widget */
     .postcard-widget {
-      margin-top: 2rem;
       width: 300px;
       height: 200px;
       perspective: 1000px; /* Enable 3D perspective */
@@ -88,10 +116,12 @@
       backface-visibility: hidden;
       border-radius: 10px;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Courier Prime', monospace;
       text-align: center;
+      padding: 1rem;
     }
 
     /* Postcard Front */
@@ -99,25 +129,25 @@
       background-color: #ffffff; /* White */
       border: 2px solid #df4646; /* Medium red */
       color: #df4646; /* Medium red */
-      flex-direction: column;
-      padding: 1rem;
     }
 
     .address {
-      font-size: 0.9rem;
-      margin-top: 10px;
-      text-align: left;
+      font-size: 1rem;
+      text-align: center;
+      margin-top: 1rem;
     }
 
     .stamp {
       position: absolute;
       top: 10px;
       right: 10px;
-      width: 50px;
-      height: 50px;
-      background-color: #ff7878; /* Placeholder pink */
-      border: 2px solid #df4646; /* Medium red */
+      width: 60px;
+      height: 60px;
+      background-image: url('cute-stamp.jpeg.jpg'); /* Replace with your stamp image */
+      background-size: cover;
+      background-position: center;
       border-radius: 5px;
+      border: 1px solid #df4646; /* Optional border for a stamp effect */
     }
 
     /* Postcard Back */
@@ -126,53 +156,293 @@
       color: #ffffff; /* White text */
       border: 2px solid #df4646; /* Medium red */
       transform: rotateY(180deg);
-      padding: 1rem;
     }
 
     /* Flip Effect */
     .postcard-widget.flip .postcard {
       transform: rotateY(180deg);
     }
+
+    /* Nickname Widget */
+    .nickname-widget {
+      font-family: 'Courier Prime', monospace;
+      font-size: 1.2rem;
+      color: #ffffff;
+      text-transform: lowercase;
+      overflow: hidden;
+      height: 50px;
+      border: 2px solid #ffffff;
+      border-radius: 20px;
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-width: 240px;
+      margin-top: 2rem;
+    }
+
+    .nickname-widget__text {
+      margin-right: 0.5rem;
+      white-space: nowrap;
+    }
+
+    .nickname-widget__list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: inline-flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 50px;
+    }
+
+    .nickname-widget__list__item {
+      line-height: 50px;
+      white-space: nowrap;
+      color: #ff7878; /* Pastel pink dark */
+      animation: scroll 10s linear infinite;
+    }
+
+    @keyframes scroll {
+      0% { transform: translateY(0); }
+      20% { transform: translateY(0); }
+      25% { transform: translateY(-50px); }
+      45% { transform: translateY(-50px); }
+      50% { transform: translateY(-100px); }
+      70% { transform: translateY(-100px); }
+      75% { transform: translateY(-150px); }
+      95% { transform: translateY(-150px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Scrolling Lyrics */
+    .lyrics-container {
+      flex: 0 0 400px; /* Reduce width to 400px */
+      height: 200px; /* Reduce height to 200px */
+      display: flex; /* Use flexbox for centering */
+      align-items: center; /* Center vertically */
+      justify-content: center; /* Center horizontally */
+      overflow: hidden;
+      position: relative;
+      border: 2px solid #ffffff;
+      border-radius: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 1rem;
+      text-align: center; /* Center text */
+    }
+
+    .lyrics-text {
+      position: relative; /* Adjust for centering */
+      animation: scrollLyrics 300s linear infinite; /* Good scrolling pace */
+      font-size: 1rem; /* Adjust font size */
+      color: #ffffff;
+      white-space: pre-wrap;
+      text-transform: lowercase;
+      text-align: center; /* Center text horizontally */
+    }
+
+    @keyframes scrollLyrics {
+      0% { transform: translateY(0); } /* Start in view */
+      100% { transform: translateY(-100%); } /* Slowly scroll out */
+    }
+
+    /* Adjust layout for postcard and lyrics */
+    .postcard-and-lyrics {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 3rem; /* Increase spacing between elements */
+      justify-content: center;
+      flex-wrap: nowrap; /* Prevent wrapping */
+    }
+
+    .postcard-widget {
+      flex: 0 0 300px; /* Fix width to 300px */
+      height: 200px; /* Maintain height */
+    }
+
+    .nickname-widget {
+      margin-top: 2rem;
+    }
+
+    /* Hidden Heart Button */
+    .hidden-heart {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 2rem;
+      color: #ff7878; /* Pastel pink dark */
+      cursor: pointer;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      z-index: 100;
+    }
+
+    .hidden-heart:hover {
+      transform: scale(1.2); /* Slight zoom on hover */
+    }
+
+    /* Hidden Message */
+    .hidden-message {
+      position: fixed;
+      top: 60px; /* Position below the heart */
+      right: 20px; /* Align with the heart */
+      background: rgba(255, 255, 255, 0.9);
+      color: #df4646; /* Medium red */
+      font-family: 'Courier Prime', monospace;
+      font-size: 1.2rem; /* Slightly smaller font size */
+      text-align: center;
+      padding: 0.8rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      animation: twinkle 1s infinite alternate; /* Twinkling effect */
+      z-index: 101; /* Ensure it appears above other elements */
+    }
+
+    .hidden-message.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.8; }
+      100% { opacity: 1; }
+    }
   </style>
 </head>
 <body>
-  <h1>maya and abi's digital scrapbook</h1>
-  <p class="subtitle">a curated collection</p>
+  <!-- Title Section -->
+  <div class="title-banner">
+    <h1>maya and abi's digital scrapbook</h1>
+  </div>
+  <p class="subtitle">a curated collection <span class="heart">❤️</span></p>
 
+  <!-- Button Section -->
   <div class="button-container">
-    <button onclick="window.location.href='memories.html'">view memories</button>
+    <button onclick="window.location.href='view-memories.html'">view memories</button>
     <button onclick="window.location.href='important-songs.html'">important songs</button>
-    <button onclick="window.location.href='photos.html'">photo gallery</button>
+    <button onclick="window.location.href='photo-gallery.html'">photo gallery</button>
+    <button onclick="window.location.href='you-through-my-eyes.html'">you through my eyes</button>
+    <button onclick="window.location.href='a-collection-of-abi.html'">a collection of abi</button>
   </div>
 
-  <!-- Postcard Widget -->
-  <div class="postcard-widget" onclick="togglePostcard()">
-    <div class="postcard">
-      <!-- Front of the postcard -->
-      <div class="postcard-front">
-        <div class="stamp"></div> <!-- Placeholder stamp -->
-        <div class="address">
-          <p>to: pretty abi</p>
-          <p>abi's iphone</p>
-          <p>abi's hand</p>
-          <p>wherever abi is</p>
+  <!-- Hidden Heart -->
+  <div class="hidden-heart" onclick="revealMessage()">❤️</div>
+
+  <!-- Hidden Message -->
+  <div class="hidden-message" id="hidden-message">
+    you found a hidden message.<br>
+    i am so proud of you everyday!
+  </div>
+
+  <!-- Postcard and Lyrics Section -->
+  <div class="postcard-section">
+    <div class="postcard-and-lyrics">
+      <!-- Postcard Widget -->
+      <div class="postcard-widget" onclick="togglePostcard()">
+        <div class="postcard">
+          <!-- Front of the postcard -->
+          <div class="postcard-front">
+            <div class="stamp"></div> <!-- Cute Stamp -->
+            <div class="address">
+              <p>to: pretty abi</p>
+              <p>abi's iphone</p>
+              <p>abi's hand</p>
+              <p>wherever abi is</p>
+            </div>
+          </div>
+
+          <!-- Back of the postcard -->
+          <div class="postcard-back">
+            <p>beautiful abi,<br>
+            i have made this website as a digital scrapbook of our memories.<br>
+            i hope you enjoy it.<br><br>
+            - maya<br>
+            14/04/2025</p>
+          </div>
         </div>
       </div>
 
-      <!-- Back of the postcard -->
-      <div class="postcard-back">
-        <p>beautiful abi,<br>
-        i have made this website as a digital scrapbook of our memories.<br>
-        i hope you enjoy it.<br><br>
-        - maya<br>
-        14/04/2025</p>
+      <!-- Scrolling Lyrics -->
+      <div class="lyrics-container">
+        <div class="lyrics-text">
+          i was perched outside in the pouring rain<br>
+          trying to make myself a sail<br>
+          then i'll float to you, my darlin'<br>
+          with the evening on my tail<br><br>
+          although not the most honest means of travel<br>
+          it gets me there nonetheless<br>
+          i'm a heartless man at worst, babe<br>
+          and a helpless one at best<br><br>
+          darling, i'll bathe your skin,<br>
+          i'll even wash your clothes<br>
+          just give me some candy before i go<br>
+          oh darling, i'll kiss your eyes<br>
+          and lay you down on your rug<br>
+          just give me some candy after my hug<br><br>
+          oh, and i'm often false explaining<br>
+          but to her it plays out all the same<br>
+          and although i'm left defeated<br>
+          it gets held against my name<br><br>
+          i know you got plenty to offer, baby<br>
+          but i guess i've taken quite enough<br>
+          well, i'm some stain there on your bed sheet<br>
+          you're my diamond in the rough<br><br>
+          darling, i'll bathe your skin,<br>
+          i'll even wash your clothes<br>
+          just give me some candy before i go<br>
+          oh darling, i'll kiss your eyes<br>
+          and lay you down on your rug<br>
+          just give me some candy after my hug<br><br>
+          i know that they're writings on the wall<br>
+          but darling, i'll bathe your skin,<br>
+          i'll even wash your clothes<br>
+          just give me some candy before i go<br>
+          oh darling, i'll kiss your eyes and lay you down on your rug<br>
+          just give me some candy after my hug<br><br>
+          oh, and i'll be there waiting for you<br>
+          oh, i'll be there waiting for you<br>
+          oh, i'll be there waiting for you<br>
+          oh, i'll be there waiting for you<br><br>
+          all the cutthroats and their jagged ends<br>
+          all of them have got me waiting and waiting<br>
+          all the cheap and the sugary philosophies<br>
+          have got me on the fence just waiting and waiting<br>
+          all the angels and their halos<br>
+          all they do is keep me waiting and waiting<br><br>
+          all the cutthroats and their jagged ends<br>
+          all of them have got me waiting and waiting<br>
+          all the cheap and the sugary philosophies<br>
+          have got me on the fence just waiting and waiting<br>
+          all the angels and their halos<br>
+          all they do is keep me waiting and waiting
+        </div>
       </div>
+    </div>
+
+    <!-- Nickname Widget -->
+    <div class="nickname-widget">
+      <span class="nickname-widget__text">[hello,</span>
+      <ul class="nickname-widget__list">
+        <li class="nickname-widget__list__item">princess</li>
+        <li class="nickname-widget__list__item">sweetheart</li>
+        <li class="nickname-widget__list__item">stinker</li>
+        <li class="nickname-widget__list__item">baby</li>
+        <li class="nickname-widget__list__item">darling</li>
+        <li class="nickname-widget__list__item">my love</li>
+        <li class="nickname-widget__list__item">sweet girl</li>
+        <li class="nickname-widget__list__item">my angel</li>
+      </ul>
+      <span class="nickname-widget__text">]</span>
     </div>
   </div>
 
   <!-- Audio Elements -->
   <audio id="background-music" src="Paolo Nutini - Candy (Lyrics)-yt.savetube.me.mp3" loop autoplay></audio>
-  <audio id="click-sound" src="retro-click.mp3"></audio>
 
   <script>
     // Flip Postcard
@@ -181,11 +451,15 @@
       widget.classList.toggle('flip');
     }
 
-    // Play Click Sound
-    document.addEventListener('click', function () {
-      const clickSound = document.getElementById('click-sound');
-      clickSound.currentTime = 0; // Reset sound to the start
-      clickSound.play();
-    });
+    // Toggle Hidden Message
+    function revealMessage() {
+      const message = document.getElementById('hidden-message');
+      if (message.classList.contains('show')) {
+        message.classList.remove('show'); // Hide the message
+      } else {
+        message.classList.add('show'); // Show the message
+      }
+    }
   </script>
 </body>
+</html>
